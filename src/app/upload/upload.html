@@ -1,0 +1,48 @@
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Upload Files</h3>
+      <p>Upload pictures of bee frames here.</p>
+      <p>If they have mites that's great, but we need pictures of "normal" bees too! Ideally they'll be pictures from a phone.</p>
+      <form name="form">
+        <div class="form-group">
+          <input class="form-control input-lg" type="text" ng-model="uploadCtrl.name" placeholder="Your name — optional!">
+        </div>
+        <div class="form-group">
+          <div ng-file-drop="" ng-file-select="" ng-model="uploadCtrl.files" ng-model-rejected="rejFiles" drag-over-class="{accept:'ok', reject:'err', delay:100}" class="droppable" ng-multiple="false" allow-dir="false" ng-accept="'image/*'" drop-available="dropAvailable" style="overflow: hidden;">
+            <div ng-hide="dropAvailable" class="ide">File Drop not available</div>
+            <div ng-show="dropAvailable && !uploadCtrl.files.length" class="">
+              drop images here
+            </div>
+            <div ng-show="uploadCtrl.files.length > 0">
+              <i class="fa fa-picture-o text-success"></i>
+              {{uploadCtrl.files[0].name}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" ng-disabled="!uploadCtrl.files.length" ng-click="uploadCtrl.submit()" ng-hide="uploadCtrl.inProgress">
+            <i class="fa fa-upload"></i> 
+            Upload
+          </button>
+        </div>
+        <div class="form-group">
+          <div class="progress" ng-show="uploadCtrl.inProgress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{uploadCtrl.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadCtrl.progress}}%">
+              <span class="sr-only">{{uploadCtrl.progress}}% complete</span>
+            </div>
+          </div>
+          <div class="alert alert-success" ng-show="uploadCtrl.success">
+            <i class="fa fa-check"></i>
+            Upload complete!
+          </div>
+          <div class="alert alert-danger" ng-show="uploadCtrl.error">
+            <i class="fa fa-close"></i>
+            Upload failed. Please try again later.
+            <code>{{uploadCtrl.error}}</code>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

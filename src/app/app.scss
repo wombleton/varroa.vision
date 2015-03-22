@@ -1,1 +1,43 @@
-@import "styles/_base";
+@import "mixins";
+@import "variables";
+@import "bootswatch";
+@import "bootstrap";
+
+body {
+	padding: 2 * $font-size-base 0;
+}
+
+dl {
+	border: 1px solid $gray-lighter;
+	padding: 1.5 * $font-size-base;
+
+	dt {
+		font-size: $font-size-h4;
+		font-weight: bold;
+	}
+	dd {
+		font-style: italic;
+		padding-left: 2 * $font-size-base;
+	}
+}
+
+.droppable {
+	border: 5px dashed $gray-light;
+	padding: 4 * $font-size-base $font-size-base;
+	cursor: pointer;
+
+	> div {
+		font-weight: bold;
+		font-size: $font-size-h4;
+		text-align: center;
+	}
+
+	&.ok {
+		border-color: $brand-success;
+		cursor: copy;
+	}
+	&.err {
+		border-color: $brand-danger;
+		cursor: no-drop;
+	}
+}

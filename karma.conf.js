@@ -12,7 +12,18 @@ module.exports = function ( karma ) {
      * Filled by the task `gulp karma-conf`
      */
     files: [
-    ],
+              'bower_components/angular/angular.js',
+              'bower_components/angular-route/angular-route.js',
+              'bower_components/jquery/dist/jquery.js',
+              'bower_components/bootstrap/dist/js/bootstrap.js',
+              'bower_components/angular-ui-router/release/angular-ui-router.js',
+              'bower_components/ng-file-upload/angular-file-upload.js',
+              'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+              'bower_components/angular-mocks/angular-mocks.js',
+              '.tmp/app/upload/upload-controller.js',
+              '.tmp/app/app.js',
+              '.tmp/varroa-templates.js'
+            ],
 
     frameworks: [ 'mocha', 'chai' ],
     plugins: [ 'karma-mocha', 'karma-chai', 'karma-phantomjs-launcher' ],
