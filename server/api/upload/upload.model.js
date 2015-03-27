@@ -11,6 +11,7 @@ var UploadSchema = new Schema({
   extension: String,
   name: String,
   size: Number,
+  ts: Number,
   uploaderName: String,
   valid: Boolean,
   url: String

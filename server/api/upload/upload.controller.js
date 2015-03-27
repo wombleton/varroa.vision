@@ -15,11 +15,12 @@ var mime = require('mime-types');
 var Upload = require('./upload.model');
 var config = require('../../config/environment');
 var mongoose = require('mongoose');
+var bucket = 'varroa';
 
 var pipe = require('multipart-pipe');
 var knox = require('knox');
 var s3 = knox.createClient({
-  bucket: 'varroa',
+  bucket: bucket,
   key: config.AWS_ACCESS_KEY_ID,
   secret: config.AWS_SECRET_ACCESS_KEY
 });
@@ -62,11 +63,13 @@ exports.create = function(req, res) {
 
     return {
       acl: 'public-read',
+      bucket: bucket,
       contentType: contentType,
-      encoding: mime.charset(contentType),
+      extension: path.extname(file),
       id: path.basename(file),
       name: name || 'Anonymous',
-      url: `http://varroa.s3.amazonaws.com/${file}`
+      ts: Date.now(),
+      url: `http://${bucket}.s3.amazonaws.com/${file}`
     };
   });
 
