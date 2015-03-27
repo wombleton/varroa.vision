@@ -9,7 +9,7 @@ angular
     vm.uploads = [];
 
     const uploadFile = (file, i) => {
-      const promise = $q.defer();
+      const deferred = $q.defer();
 
       vm.uploads[i] = { i: i, progress: 0 };
       $upload
@@ -27,12 +27,12 @@ angular
             vm.uploads[i].progress = parseInt(100.0 * loaded / total);
           }
         })
-        .success(() => promise.resolve())
+        .success(() => deferred.resolve())
         .error((e) => {
-          promise.reject(e);
+          deferred.reject(e);
         });
 
-      return promise;
+      return deferred.promise;
     };
 
     vm.submit = () => {
