@@ -8,7 +8,7 @@ var UploadSchema = new Schema({
   bucket: String,
   contentType: String,
   encoding: String,
-  key: String,
+  extension: String,
   name: String,
   size: Number,
   uploaderName: String,
