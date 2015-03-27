@@ -14,7 +14,7 @@ angular
       vm.uploads[i] = { i: i, progress: 0 };
       $upload
         .upload({
-          url: '/api/upload',
+          url: '/api/uploads',
           file: file,
           fields: {
             name: vm.name

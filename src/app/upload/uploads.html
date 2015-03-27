@@ -1,0 +1,30 @@
+<section class="container-fluid">
+  <div class="row">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Size</th>
+          <th>By</th>
+          <th>Uploaded</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="upload in uploadsCtrl.uploads">
+          <td>
+            <a href="{{upload.url}}" target="_blank">{{upload.id}}</a>
+          </td>
+          <td>
+            {{upload.size}}
+          </td>
+          <td>
+            {{upload.name}}
+          </td>
+          <td>
+            <span am-time-ago="upload.ts"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

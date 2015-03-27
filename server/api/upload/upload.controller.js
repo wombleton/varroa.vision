@@ -12,6 +12,7 @@
 var _ = require('lodash');
 var path = require('path');
 var curli = require('curli');
+var filesize = require('filesize');
 var mime = require('mime-types');
 var Upload = require('./upload.model');
 var config = require('../../config/environment');
@@ -65,7 +66,7 @@ const updateSizes = (files) => {
           $set: {
             size: parseInt(res['content-length'])
           }
-        });
+        }, () => {});
       }
     });
   });
@@ -102,6 +103,27 @@ exports.create = function(req, res) {
         detail: ok
       });
     }
+  });
+};
+
+exports.query = (req, res) => {
+  Upload.find().sort('-ts').exec((err, uploads) => {
+    if (err) {
+      return handleError(res, err);
+    }
+
+    const json = _.map(uploads, (upload) => {
+      return {
+        id: upload._id,
+        name: upload.name,
+        size: upload.size && filesize(upload.size, {
+          unix: true
+        }),
+        ts: upload.ts,
+        url: upload.url
+      };
+    });
+    return res.status(200).json(json);
   });
 };
 
