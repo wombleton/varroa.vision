@@ -22,7 +22,8 @@
     "angular": "~1.2.14",
     "bootstrap-sass-official": "~3.3.4",
     "angular-ui-router": "~0.2.13",
-    "ng-file-upload": "~3.2.4"
+    "ng-file-upload": "~3.2.4",
+    "lodash": "~3.6.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.14"

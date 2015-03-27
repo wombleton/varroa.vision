@@ -10,7 +10,8 @@
 'use strict';
 
 var _ = require('lodash');
-var mimetypes = require('mimetypes');
+var path = require('path');
+var mime = require('mime-types');
 var Upload = require('./upload.model');
 var config = require('../../config/environment');
 var mongoose = require('mongoose');
@@ -44,11 +45,11 @@ exports.persistFiles = function(req, res, next) {
     filename: function(part, type) {
       var key = getKey(part, type);
       if (!filenames[key]) {
-        filenames[key] = mongoose.Types.ObjectId() + '.' + mimetypes.detectExtension(type);
+        filenames[key] = mongoose.Types.ObjectId() + '.' + mime.extension(type);
       }
       return filenames[key];
     },
-    limit: '10mb'
+    limit: '16mb'
   })(req, res, next);
 };
 
@@ -57,9 +58,15 @@ exports.create = function(req, res) {
   const { name } = req.form;
 
   const files = _.map(req.files, (file) => {
+    const contentType = mime.lookup(file);
+
     return {
-      id: file.replace(/\..+$/, ''),
-      name: name || 'Anonymous'
+      acl: 'public-read',
+      contentType: contentType,
+      encoding: mime.charset(contentType),
+      id: path.basename(file),
+      name: name || 'Anonymous',
+      url: `http://varroa.s3.amazonaws.com/${file}`
     };
   });
 

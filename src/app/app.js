@@ -4,6 +4,7 @@ angular.module('varroa', [
     'ui.router',
     'varroa.upload'
   ])
+  .constant('_', window._)
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('varroa', {
