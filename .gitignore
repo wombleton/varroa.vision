@@ -1,3 +1,6 @@
+# env file
+.env
+
 bower_components/
 .tmp/
 

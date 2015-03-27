@@ -10,6 +10,7 @@
   "indent": 2,
   "newcap": true,
   "noarg": true,
+  "node": true,
   "quotmark": "single",
   "regexp": true,
   "undef": true,

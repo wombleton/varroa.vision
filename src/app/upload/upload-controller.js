@@ -12,8 +12,8 @@ angular
       vm.inProgress = true;
       $upload
         .upload({
-          url: '/api/pictures',
-          file: vm.files[0],
+          url: '/api/upload',
+          file: vm.files,
           fields: {
             name: vm.name
           }
@@ -25,6 +25,7 @@ angular
         .success(() => {
           vm.success = true;
           vm.inProgress = false;
+          vm.files = [];
         })
         .error((e) => {
           vm.error = e;

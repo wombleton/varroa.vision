@@ -130,7 +130,7 @@ gulp.task('dist', ['vendors', 'assets', 'styles-dist', 'scripts-dist'], function
 
 gulp.task('nodemon', function() {
   g.nodemon({
-    script: 'server/app.js',
+    script: 'index.js',
     watch: ['server'],
     ext: 'js',
     env: { 'NODE_ENV': 'development' }

@@ -9,14 +9,14 @@
           <input class="form-control input-lg" type="text" ng-model="uploadCtrl.name" placeholder="Your name — optional!">
         </div>
         <div class="form-group">
-          <div ng-file-drop="" ng-file-select="" ng-model="uploadCtrl.files" ng-model-rejected="rejFiles" drag-over-class="{accept:'ok', reject:'err', delay:100}" class="droppable" ng-multiple="false" allow-dir="false" ng-accept="'image/*'" drop-available="dropAvailable" style="overflow: hidden;">
+          <div ng-model="uploadCtrl.files" drag-over-class="{accept:'ok', reject:'err', delay:100}" class="droppable" ng-multiple="true" allow-dir="false" ng-accept="'image/*'" drop-available="dropAvailable" style="overflow: hidden;">
             <div ng-hide="dropAvailable" class="ide">File Drop not available</div>
             <div ng-show="dropAvailable && !uploadCtrl.files.length" class="">
               drop images here
             </div>
-            <div ng-show="uploadCtrl.files.length > 0">
+            <div ng-repeat="file in uploadCtrl.files">
               <i class="fa fa-picture-o text-success"></i>
-              {{uploadCtrl.files[0].name}}
+              {{file.name}}
             </div>
           </div>
         </div>
