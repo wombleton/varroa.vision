@@ -11,6 +11,7 @@
 
 var _ = require('lodash');
 var path = require('path');
+var curli = require('curli');
 var mime = require('mime-types');
 var Upload = require('./upload.model');
 var config = require('../../config/environment');
@@ -54,19 +55,36 @@ exports.persistFiles = function(req, res, next) {
   })(req, res, next);
 };
 
+const updateSizes = (files) => {
+  _.each(files, (file) => {
+    curli(file.url, (err, res) => {
+      if (!err) {
+        Upload.update({
+          _id: file._id
+        }, {
+          $set: {
+            size: parseInt(res['content-length'])
+          }
+        });
+      }
+    });
+  });
+};
+
 // Creates a new thing in the DB.
 exports.create = function(req, res) {
   const { name } = req.form;
 
   const files = _.map(req.files, (file) => {
     const contentType = mime.lookup(file);
+    const ext = path.extname(file);
 
     return {
       acl: 'public-read',
       bucket: bucket,
       contentType: contentType,
-      extension: path.extname(file),
-      id: path.basename(file),
+      extension: ext,
+      _id: path.basename(file, ext),
       name: name || 'Anonymous',
       ts: Date.now(),
       url: `http://${bucket}.s3.amazonaws.com/${file}`
@@ -77,6 +95,7 @@ exports.create = function(req, res) {
     if (err) {
       handleError(res, err);
     } else {
+      updateSizes(files);
       res.json(201, {
         ok: true,
         count: files.length,
