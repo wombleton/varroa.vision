@@ -97,7 +97,7 @@ angular.module("varroa.upload").controller("UploadCtrl", function (_, $upload, $
 });
 "use strict";
 
-angular.module("varroa", ["ui.router", "angularMoment", "varroa.upload"]).constant("_", window._).config(function ($stateProvider, $urlRouterProvider) {
+angular.module("varroa", ["ui.router", "angularMoment", "varroa.upload", "angulartics.google.analytics"]).constant("_", window._).config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state("varroa", {
     views: {
       "@": {
