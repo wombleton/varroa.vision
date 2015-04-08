@@ -12,13 +12,16 @@ angular.module('varroa', [
         views: {
           '@': {
             templateUrl: '/varroa/layout/layout.html'
+          },
+          'header@': {
+            templateUrl: '/varroa/layout/header.html'
           }
         }
       })
       .state('home', {
         parent: 'varroa',
         templateUrl: '/varroa/home/home.html',
-        url: '/home'
+        url: '/'
       })
       .state('uploads', {
         parent: 'varroa',
@@ -30,9 +33,9 @@ angular.module('varroa', [
         parent: 'varroa',
         controller: 'UploadCtrl as uploadCtrl',
         templateUrl: '/varroa/upload/upload.html',
-        url: '/upload'
+        url: '/add'
       });
 
 
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/');
   });
