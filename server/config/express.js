@@ -25,8 +25,8 @@ module.exports = function(app) {
   app.use(cookieParser());
   app.use(passport.initialize());
   if ('production' === env) {
-    app.use(express.static(path.join(config.root, 'public')));
-    app.set('appPath', config.root + '/public');
+    app.use(express.static(path.join(config.root, 'dist')));
+    app.set('appPath', config.root + 'dist');
     app.use(morgan('dev'));
   } else if ('development' === env || 'test' === env) {
     app.use(require('connect-livereload')());
