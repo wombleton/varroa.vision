@@ -1,17 +1,16 @@
 'use strict';
 
-var config = require('properties-parser').read('.env'),
-    _ = require('lodash');
+var config = require('properties-parser').read('.env');
 
-_.extend(config, {
+// Development specific configuration
+// ==================================
+module.exports = {
   // MongoDB connection options
   mongo: {
     uri: 'mongodb://localhost/varroa-dev'
   },
 
-  seedDB: true
-});
+  aws: config,
 
-// Development specific configuration
-// ==================================
-module.exports = config;
+  seedDB: true
+};
