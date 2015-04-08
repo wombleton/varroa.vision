@@ -23,8 +23,8 @@ var pipe = require('multipart-pipe');
 var knox = require('knox');
 var s3 = knox.createClient({
   bucket: bucket,
-  key: config.AWS_ACCESS_KEY_ID,
-  secret: config.AWS_SECRET_ACCESS_KEY
+  key: config.aws.AWS_ACCESS_KEY_ID,
+  secret: config.aws.AWS_SECRET_ACCESS_KEY
 });
 
 // Get a single thing
