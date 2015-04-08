@@ -7,6 +7,14 @@ body {
 	padding: 3 * $font-size-base 0;
 }
 
+.uploads-img {
+  width: 100%;
+}
+
+.table-hover tbody tr {
+  cursor: pointer;
+}
+
 dl {
 	border: 1px solid $gray-lighter;
 	padding: 1.5 * $font-size-base;

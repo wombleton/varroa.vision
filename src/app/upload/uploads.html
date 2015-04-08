@@ -1,6 +1,49 @@
 <section class="container-fluid">
+  <div class="jumbotron" ng-if="uploadsCtrl.selected">
+    <div class="col-md-8">
+      <img class="uploads-img" src="{{uploadsCtrl.selected.url}}"/>
+    </div>
+    <div class="col-md-4">
+      <table class="table table-striped table-condensed">
+        <tbody>
+          <tr>
+            <td>
+              {{uploadsCtrl.index + 1}} of {{uploadsCtrl.uploads.length}} images
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{uploadsCtrl.selected.name}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{uploadsCtrl.selected.size}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span am-time-ago="uploadsCtrl.selected.ts"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-default" ng-click="uploadsCtrl.prev()">
+                  <i class="fa fa-angle-double-left"></i>
+                </button>
+                <button class="btn btn-default" ng-click="uploadsCtrl.next()">
+                  <i class="fa fa-angle-double-right"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <div class="row">
-    <table class="table table-condensed">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Image</th>
@@ -10,9 +53,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="upload in uploadsCtrl.uploads">
+      <tr ng-repeat="upload in uploadsCtrl.uploads" ng-click="uploadsCtrl.select($index)" ng-class="{ info: $index == uploadsCtrl.index }">
           <td>
-            <a href="{{upload.url}}" target="_blank">{{upload.id}}</a>
+            {{upload.id}}
           </td>
           <td>
             {{upload.size}}
