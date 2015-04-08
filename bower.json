@@ -4,7 +4,7 @@
     "/dist/varroa.min.js",
     "/dist/varroa.min.css"
   ],
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "TODO",
   "authors": [
     "Rowan Crawford <wombleton@gmail.com>"
