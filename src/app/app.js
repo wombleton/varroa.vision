@@ -4,7 +4,8 @@
 angular.module('varroa', [
     'ui.router',
     'angularMoment',
-    'varroa.upload'
+    'varroa.upload',
+    'angulartics.google.analytics'
   ])
   .constant('_', window._)
   .config(function ($stateProvider, $urlRouterProvider) {
