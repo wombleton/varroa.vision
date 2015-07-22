@@ -4,6 +4,7 @@ var express = require('express');
 var controller = require('./upload.controller');
 var router = express.Router();
 
+router.get('/count', controller.count);
 router.get('/:id', controller.show);
 router.post('/', controller.persistFiles, controller.create);
 router.get('/', controller.query);

@@ -13,5 +13,8 @@
       <li><a ui-sref="upload">Add Pictures</a> </li>
       <li><a ui-sref="uploads">Uploads</a> </li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="navbar-text" ng-if="count">{{count}} pictures uploaded.</li>
+    </ul>
   </nav>
 </div>

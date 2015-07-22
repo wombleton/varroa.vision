@@ -1,10 +1,10 @@
+/* global angular */
 'use strict';
 
 angular.module('varroa', [
     'ui.router',
     'angularMoment',
-    'varroa.upload',
-    'angulartics.google.analytics'
+    'varroa.upload'
   ])
   .constant('_', window._)
   .config(function ($stateProvider, $urlRouterProvider) {
@@ -15,7 +15,7 @@ angular.module('varroa', [
             templateUrl: '/varroa/layout/layout.html'
           },
           'header@': {
-            templateUrl: '/varroa/layout/header.html'
+            template: '<varroa-header></varroa-header>'
           }
         }
       })
@@ -36,7 +36,6 @@ angular.module('varroa', [
         templateUrl: '/varroa/upload/upload.html',
         url: '/add'
       });
-
 
     $urlRouterProvider.otherwise('/');
   });

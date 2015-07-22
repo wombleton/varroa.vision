@@ -127,6 +127,19 @@ exports.query = (req, res) => {
   });
 };
 
+exports.count = (req, res) => {
+  Upload.count().exec((err, count) => {
+    if (err) {
+      console.log(err);
+      return handleError(res, err);
+    }
+
+    return res.status(200).json({
+      count: count
+    });
+  });
+};
+
 function handleError(res, err) {
   return res.send(500, err);
 }
