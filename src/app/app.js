@@ -1,3 +1,4 @@
+/* global angular */
 'use strict';
 
 angular.module('varroa', [
@@ -14,7 +15,7 @@ angular.module('varroa', [
             templateUrl: '/varroa/layout/layout.html'
           },
           'header@': {
-            templateUrl: '/varroa/layout/header.html'
+            template: '<varroa-header></varroa-header>'
           }
         }
       })
@@ -35,7 +36,6 @@ angular.module('varroa', [
         templateUrl: '/varroa/upload/upload.html',
         url: '/add'
       });
-
 
     $urlRouterProvider.otherwise('/');
   });
