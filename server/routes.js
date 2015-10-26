@@ -4,11 +4,10 @@
 
 'use strict';
 
-var errors = require('./components/errors');
+const errors = require('./components/errors');
 
 module.exports = function (app) {
   // Insert routes below
-  app.use('/api/uploads', require('./api/upload'));
   app.use('/api/tiles', require('./api/tile'));
   app.use('/api/users', require('./api/user'));
 
