@@ -66,7 +66,7 @@ const q = async.queue(function (task, callback) {
     }
     callback(err, count);
   });
-}, 1);
+}, 10);
 
 fs.readdir(path.join('srcfiles'), function (err, files) {
   if (err) {
