@@ -1,7 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
-var Tile = require('./tile.model');
+const _ = require('lodash');
+const moment = require('moment');
+const Tile = require('./tile.model');
 
 // Get list of tiles
 exports.index = function (req, res) {
@@ -9,6 +10,51 @@ exports.index = function (req, res) {
     if (err) { return handleError(res, err); }
     return res.status(200).json(tiles);
   });
+};
+
+// Get a random tile to vote on.
+// 90% of the time it's a low vote count.
+// 10% of the time it's high vote count outside the cooldown
+exports.random = function (req, res) {
+  const roll = _.random(1, 10);
+  const skip = _.random(0, 1000);
+  let find;
+  let sort;
+  if (roll === 10) {
+    find = {
+      votedAt: {
+        $lt: moment().subtract(1, 'week').toDate()
+      }
+    };
+    sort = {
+      hash: 1,
+      voteCount: 1
+    };
+  } else {
+    find = {};
+    sort = {
+      hash: 1,
+      voteCount: -1
+    };
+  }
+  Tile
+    .findOne(find)
+    .sort(sort)
+    .skip(skip)
+    .exec(function (err, tile) {
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!tile) {
+        // we might not have any old tiles yet
+        if (roll === 10) {
+          return exports.random(req, res);
+        } else {
+          return res.sendStatus(404);
+        }
+      }
+      return res.json(tile);
+    });
 };
 
 // Get a single tile

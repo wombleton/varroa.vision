@@ -5,6 +5,7 @@ var controller = require('./tile.controller');
 
 var router = express.Router();
 
+router.get('/random', controller.random);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);

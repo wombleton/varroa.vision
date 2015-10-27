@@ -11,6 +11,12 @@ var TileSchema = new Schema({
   hash: String,
   url: String,
   name: String,
+  voteCount: {
+    default: 0,
+    type: Number
+  },
+  votedAt: Date,
+  updatedAt: Date,
   votes: [
     {
       bee: Boolean,
