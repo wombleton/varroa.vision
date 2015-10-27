@@ -60,6 +60,33 @@ exports.random = function (req, res) {
     });
 };
 
+// record a vote
+exports.vote = function (req, res) {
+  const body = req.body || {};
+
+  Tile.findByIdAndUpdate(req.params.id, {
+    $inc: {
+      voteCount: 1
+    },
+    $push: {
+      votes: {
+        bee: !!body.bee,
+        parasite: !!body.parasite,
+        bad: !!body.bad,
+        ponder_time: body.ponder_time,
+        ip_address: req.ip
+      }
+    }
+  },
+  { 'new': true },
+  function (err, tile) {
+    if (err) {
+      return handleError(res, err);
+    }
+    return res.status(201).json(tile);
+  });
+};
+
 // Get a single tile
 exports.show = function (req, res) {
   Tile.findById(req.params.id, function (err, tile) {
