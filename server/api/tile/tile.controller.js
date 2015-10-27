@@ -24,6 +24,9 @@ exports.random = function (req, res) {
     find = {
       votedAt: {
         $lt: moment().subtract(1, 'week').toDate()
+      },
+      voteCount: {
+        $lt: 3
       }
     };
     sort = {
