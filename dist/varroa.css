@@ -5948,8 +5948,12 @@ tile-vote {
   tile-vote .tile {
     border-bottom: 1px solid #999999; }
   tile-vote .placeholder {
-    width: 64px;
-    height: 64px; }
+    margin: 0 auto;
+    width: 128px;
+    height: 128px; }
+  tile-vote img {
+    width: 128px;
+    height: 128px; }
   tile-vote .text-success .badge {
     background-color: #43ac6a; }
   tile-vote .text-muted .badge {
