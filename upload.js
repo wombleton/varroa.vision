@@ -74,6 +74,9 @@ fs.readdir(path.join('srcfiles'), function (err, files) {
     process.exit(1);
   }
   files.forEach(function (file) {
+    if (path.extname(file) !== '.jpg') {
+      return;
+    }
     q.push({
       path: path.resolve('srcfiles', file)
     });
