@@ -118,6 +118,9 @@ angular.module('varroa.tile').directive('tileVote', ["$http", function ($http) {
       scope.tiles = [];
 
       scope.fetchTiles = function () {
+        if (scope.fetching) {
+          return;
+        }
         scope.fetching = true;
         $http.get('/api/tiles/random').success(function (tiles) {
           var _scope$tiles;
