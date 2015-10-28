@@ -17,7 +17,7 @@ angular
           $http.get('/api/tiles/random')
             .success((tile) => {
               scope.tiles.push(tile);
-              if (!scope.expert && scope.tiles.length < 2) {
+              if (scope.tiles.length < 10) {
                 scope.fetchTile();
               }
             });
@@ -39,9 +39,7 @@ angular
           $http
             .post(`/api/tiles/${id}/vote`, vote)
             .success(() => {
-              if (!scope.expert) {
-                scope.fetchTile();
-              }
+              scope.fetchTile();
               getCounts();
             });
         }

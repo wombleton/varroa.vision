@@ -59,18 +59,12 @@ dl {
 tile-vote {
   display: block;
 
-  table {
-    margin: 0 auto;
-    table-layout: fixed;
-    border-spacing: 5px;
-    border-collapse: separate;
-    td {
-      width: 33%;
-    }
+  .tile {
+    border-bottom: 1px solid $gray-light;
   }
   .placeholder {
-    width: 128px;
-    height: 128px;
+    width: 64px;
+    height: 64px;
   }
   .text-success .badge {
     background-color: $brand-success;
@@ -85,5 +79,23 @@ tile-vote {
     margin-top: 5px;
     color: $text-muted;
     display: block;
+  }
+}
+
+.grid-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+
+  > div {
+    flex: 0 0 auto;
+  }
+  > .stretch {
+    flex: 1 0 100px;
+    padding: 3px 5px;
+  }
+  .top {
+    align-self: flex-start;
   }
 }
