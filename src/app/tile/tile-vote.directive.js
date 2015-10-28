@@ -14,6 +14,9 @@ angular
         scope.tiles = [];
 
         scope.fetchTiles = () => {
+          if (scope.fetching) {
+            return;
+          }
           scope.fetching = true;
           $http.get('/api/tiles/random')
             .success((tiles) => {
