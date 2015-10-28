@@ -30,16 +30,16 @@ exports.random = function (req, res) {
         $lt: 3
       }
     };
-    sort = {
-      hash: 1,
-      voteCount: 1
-    };
+    sort = [
+      ['voteCount', -1],
+      ['hash', 1]
+    ];
   } else {
     find = {};
-    sort = {
-      hash: 1,
-      voteCount: -1
-    };
+    sort = [
+      ['voteCount', 1],
+      ['hash', 1]
+    ];
   }
   Tile
     .findOne(find)
