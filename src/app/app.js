@@ -4,6 +4,7 @@
 angular
   .module('varroa', [
     'ui.router',
+    'infinite-scroll',
     'angularMoment',
     'varroa.upload',
     'varroa.tile',

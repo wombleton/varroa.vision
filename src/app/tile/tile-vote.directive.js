@@ -1,4 +1,4 @@
-/* global angular */
+/* global angular, _ */
 'use strict';
 
 angular
@@ -10,28 +10,21 @@ angular
       restrict: 'E',
       link: (scope) => {
         let start = Date.now();
+        scope.expert = false;
+        scope.tiles = [];
 
-        function fetchTile () {
+        scope.fetchTile = () => {
           $http.get('/api/tiles/random')
             .success((tile) => {
-              if (!scope.tile) {
-                scope.tile = tile;
-                fetchTile();
-              } else {
-                scope.next = tile;
+              scope.tiles.push(tile);
+              if (scope.tiles.length < 10) {
+                scope.fetchTile();
               }
             });
-        }
-
-        fetchTile();
-        getCounts();
-
-        scope.showNext = () => {
-          scope.tile = scope.next;
-          start = Date.now();
-          scope.next = undefined;
-          fetchTile();
         };
+
+        scope.fetchTile();
+        getCounts();
 
         function getCounts () {
           $http.get('/api/tiles/count')
@@ -42,13 +35,18 @@ angular
 
         function doVote (id, vote) {
           vote['ponder_time'] = Date.now() - start;
+          _.remove(scope.tiles, '_id', id);
           $http
             .post(`/api/tiles/${id}/vote`, vote)
             .success(() => {
+              scope.fetchTile();
               getCounts();
-              scope.showNext();
             });
         }
+
+        scope.goExpert = () => {
+          scope.expert = true;
+        };
 
         scope.downVote = (id) => {
           doVote(id, {
