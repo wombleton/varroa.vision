@@ -104,7 +104,7 @@ angular.module('varroa.tile', []).config(function ($stateProvider) {
     url: '/categorise'
   });
 });
-/* global angular */
+/* global angular, _ */
 'use strict';
 
 angular.module('varroa.tile').directive('tileVote', function ($http) {
@@ -112,27 +112,20 @@ angular.module('varroa.tile').directive('tileVote', function ($http) {
     restrict: 'E',
     link: function link(scope) {
       var start = Date.now();
+      scope.expert = false;
+      scope.tiles = [];
 
-      function fetchTile() {
+      scope.fetchTile = function () {
         $http.get('/api/tiles/random').success(function (tile) {
-          if (!scope.tile) {
-            scope.tile = tile;
-            fetchTile();
-          } else {
-            scope.next = tile;
+          scope.tiles.push(tile);
+          if (scope.tiles.length < 10) {
+            scope.fetchTile();
           }
         });
-      }
-
-      fetchTile();
-      getCounts();
-
-      scope.showNext = function () {
-        scope.tile = scope.next;
-        start = Date.now();
-        scope.next = undefined;
-        fetchTile();
       };
+
+      scope.fetchTile();
+      getCounts();
 
       function getCounts() {
         $http.get('/api/tiles/count').success(function (counts) {
@@ -142,11 +135,16 @@ angular.module('varroa.tile').directive('tileVote', function ($http) {
 
       function doVote(id, vote) {
         vote['ponder_time'] = Date.now() - start;
+        _.remove(scope.tiles, '_id', id);
         $http.post('/api/tiles/' + id + '/vote', vote).success(function () {
+          scope.fetchTile();
           getCounts();
-          scope.showNext();
         });
       }
+
+      scope.goExpert = function () {
+        scope.expert = true;
+      };
 
       scope.downVote = function (id) {
         doVote(id, {
@@ -172,7 +170,7 @@ angular.module('varroa.tile').directive('tileVote', function ($http) {
 /* global angular */
 'use strict';
 
-angular.module('varroa', ['ui.router', 'angularMoment', 'varroa.upload', 'varroa.tile', 'angulartics.google.analytics']).constant('_', window._).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('varroa', ['ui.router', 'infinite-scroll', 'angularMoment', 'varroa.upload', 'varroa.tile', 'angulartics.google.analytics']).constant('_', window._).config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider.state('varroa', {
     views: {
       '@': {
@@ -251,7 +249,7 @@ angular.module('varroa').directive('varroaHeader', function () {
     module = angular.module('varroa', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/varroa/tile/tile-vote.html', '<div class="text-center"><table><tbody><tr><td class="text-right"><button class="btn btn-default btn-lg" ng-disabled="!tile" ng-click="downVote(tile._id)"><i class="fa fa-thumbs-down"></i></button><label>I don\'t see a bee</label></td><td><img ng-if="tile" ng-src="{{tile.url}}" width="128" height="128"><div class="placeholder text-center" ng-if="!tile"><i class="fa fa-2x fa-spinner fa-spin"></i></div></td><td class="text-left"><button class="btn btn-success btn-lg" ng-disabled="!tile" ng-click="upVote(tile._id)"><i class="fa fa-thumbs-up"></i></button><label>I see a bee</label></td></tr><tr><td colspan="3"><button class="btn btn-danger" ng-disabled="!tile" ng-click="parasite(tile._id)"><i class="fa fa-bug"></i> Varroa!</button><label>I see a varroa mite</label></td></tr><tr><td colspan="3"><button class="btn btn-link" ng-disabled="!tile" ng-click="showNext()">Give me a different picture</button></td></tr><tr><td class="text-success"><span class="badge">{{counts.bees}}</span> bees</td><td class="text-muted"><span class="badge">{{counts.unbees}}</span> not bees</td><td class="text-danger"><span class="badge">{{counts.varroas}}</span> mites</td></tr><tr><td></td><td class="text-muted"><span class="badge">{{counts.uncategoriseds}}</span> uncategorised</td></tr></tbody></table></div><h3 class="text-center">What Do I Need To Do Here?</h3><p class="lead text-center">Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn\'t. Some of the images will be blurry and hard to make out just what they have in them. Don\'t worry &mdash; if you can\'t tell what it is, it\'s not a bee.</p><p class="lead text-center"><b>Bonus points!</b> If you spot a varroa mite, click the <i class="fa fa-bug text-danger"></i> button! Varroa mites look like this, but as you can see they\'re pretty small:</p><p class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Varroa_destructor_on_drone_66a.jpg/128px-Varroa_destructor_on_drone_66a.jpg"></p>');
+    $templateCache.put('/varroa/tile/tile-vote.html', '<div class="text-center"><div class="tile-list" infinite-scroll="fetchTile()" infinite-scroll-disabled="!expert"><div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert"><div class="grid-row"><div class="stretch text-right top"><button class="btn btn-default btn-lg" ng-disabled="!tile" ng-click="downVote(tile._id)"><i class="fa fa-thumbs-down"></i></button><label>I don\'t see a bee</label></div><div class="top"><img ng-if="tile" ng-src="{{tile.url}}" width="64" height="64"><div class="placeholder text-center" ng-if="!tile"><i class="fa fa-2x fa-spinner fa-spin"></i></div></div><div class="stretch text-left top"><button class="btn btn-success btn-lg" ng-disabled="!tile" ng-click="upVote(tile._id)"><i class="fa fa-thumbs-up"></i></button><label>I see a bee</label></div></div><div class="grid-row" ng-if="!expert"><div class="stretch"><button class="btn btn-link" ng-disabled="!tile" ng-click="showNext()">Give me a different picture</button></div></div></div></div><div class="grid-row form-group" ng-if="!expert"><div class="text-success stretch text-right"><span class="badge">{{counts.bees}}</span> bees</div><div class="text-muted"><span class="badge">{{counts.uncategoriseds}}</span> uncategorised</div><div class="text-muted stretch text-left"><span class="badge">{{counts.unbees}}</span> not bees</div></div><div ng-if="!expert"><button class="btn btn-warning" ng-click="goExpert()"><i class="fa fa-rocket"></i> Expert Mode</button><label>I am ready for a torrent of images</label></div></div><div class="explanation" ng-if="!expert"><h3 class="text-center">What Do I Need To Do Here?</h3><p class="lead text-center">Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn\'t. Some of the images will be blurry and hard to make out just what they have in them. Don\'t worry &mdash; if you can\'t tell what it is, it\'s not a bee.</p></div>');
   }]);
 })();
 

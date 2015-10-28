@@ -5945,16 +5945,11 @@ dl {
 
 tile-vote {
   display: block; }
-  tile-vote table {
-    margin: 0 auto;
-    table-layout: fixed;
-    border-spacing: 5px;
-    border-collapse: separate; }
-    tile-vote table td {
-      width: 33%; }
+  tile-vote .tile {
+    border-bottom: 1px solid #999999; }
   tile-vote .placeholder {
-    width: 128px;
-    height: 128px; }
+    width: 64px;
+    height: 64px; }
   tile-vote .text-success .badge {
     background-color: #43ac6a; }
   tile-vote .text-muted .badge {
@@ -5965,3 +5960,16 @@ tile-vote {
     margin-top: 5px;
     color: #999999;
     display: block; }
+
+.grid-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center; }
+  .grid-row > div {
+    flex: 0 0 auto; }
+  .grid-row > .stretch {
+    flex: 1 0 100px;
+    padding: 3px 5px; }
+  .grid-row .top {
+    align-self: flex-start; }
