@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 const Tile = require('./tile.model');
+const async = require('async');
 
 // Get list of tiles
 exports.index = function (req, res) {
@@ -64,26 +65,64 @@ exports.random = function (req, res) {
 exports.vote = function (req, res) {
   const body = req.body || {};
 
-  Tile.findByIdAndUpdate(req.params.id, {
-    $inc: {
-      voteCount: 1
-    },
-    $push: {
-      votes: {
-        bee: !!body.bee,
-        parasite: !!body.parasite,
-        bad: !!body.bad,
-        ponder_time: body.ponder_time,
-        ip_address: req.ip
-      }
-    }
-  },
-  { 'new': true },
-  function (err, tile) {
+  Tile.findById(req.params.id, (err, tile) => {
     if (err) {
       return handleError(res, err);
     }
-    return res.status(201).json(tile);
+    if (!tile) {
+      return res.sendStatus(404);
+    }
+    tile.voteCount++;
+    tile.votes.push({
+      bee: !!body.bee,
+      parasite: !!body.parasite,
+      bad: !!body.bad,
+      ponder_time: body.ponder_time,
+      ip_address: req.ip
+    });
+
+    const beeVotes = _.partition(tile.votes, 'bee');
+    const parasiteVotes = _.filter(tile.votes, 'parasite', true);
+
+    if (parasiteVotes.length > tile.votes.length / 2) {
+      tile.verdict = 'varroa';
+    } else if (beeVotes[0].length > beeVotes[1].length) {
+      tile.verdict = 'bee';
+    } else if (beeVotes[1].length > beeVotes[0].length) {
+      tile.verdict = 'notbee';
+    }
+
+    tile.save((err, tile) => {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.status(201).json(tile);
+    });
+  });
+};
+
+exports.count = function (req, res) {
+  async.parallel([
+    function (callback) {
+      Tile.count({ verdict: 'bee' }, callback);
+    },
+    function (callback) {
+      Tile.count({ verdict: 'notbee' }, callback);
+    },
+    function (callback) {
+      Tile.count({ verdict: 'varroa' }, callback);
+    }
+  ], function (err, result) {
+    if (err) {
+      return handleError(res, err);
+    }
+
+    const [ bees, unbees, varroas ] = result;
+    return res.status(200).json({
+      bees,
+      unbees,
+      varroas
+    });
   });
 };
 

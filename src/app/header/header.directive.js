@@ -3,17 +3,9 @@
 
 angular
   .module('varroa')
-  .directive('varroaHeader', (
-    $http
-  ) => {
+  .directive('varroaHeader', () => {
     return {
       restrict: 'E',
-      link: (scope) => {
-        $http.get('/api/uploads/count')
-          .success(({ count } = {}) => {
-            scope.count = count;
-          });
-      },
       templateUrl: '/varroa/layout/header.html'
     };
   });
