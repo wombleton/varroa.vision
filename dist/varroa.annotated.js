@@ -223,6 +223,17 @@ angular.module('varroa').directive('varroaHeader', function () {
     module = angular.module('varroa', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/varroa/home/home.html', '<div class="jumbotron text-center"><h1>Varroa Vision</h1><div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Varroa_Mite.jpg"></div><dl><dt>Varroa destructor</dt><dd>a microscopic mite which is a debilitating parasite of the honeybee, causing loss of honey production.</dd></dl><h3>What We Hope</h3><p>That we can develop computer vision to detect the presence of varroa mite.</p><h3>What We Need</h3><p>Your eyes! Help categorise the images &mdash; all you need to do is to be able to spot the difference between a picture that has a bee in it, and one that doesn\'t. Simple, right?</p><button class="btn btn-lg btn-primary" ui-sref="tilevote">Get Started</button></div>');
+  }]);
+})();
+
+(function (module) {
+  try {
+    module = angular.module('varroa');
+  } catch (e) {
+    module = angular.module('varroa', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/varroa/layout/header.html', '<div class="container"><div class="navbar-header"><button class="navbar-toggle collapsed" type="button" data-toggle="collapse"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a ui-sref="home" class="navbar-brand">Varroa Vision</a></div><nav class="collapse navbar-collapse"><ul class="nav navbar-nav"><li><a ui-sref="tilevote">Categorise</a></li></ul></nav></div>');
   }]);
 })();
@@ -245,18 +256,7 @@ angular.module('varroa').directive('varroaHeader', function () {
     module = angular.module('varroa', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/varroa/home/home.html', '<div class="jumbotron text-center"><h1>Varroa Vision</h1><div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Varroa_Mite.jpg"></div><dl><dt>Varroa destructor</dt><dd>a microscopic mite which is a debilitating parasite of the honeybee, causing loss of honey production.</dd></dl><h3>What We Hope</h3><p>That we can develop computer vision to detect the presence of varroa mite.</p><h3>What We Need</h3><p>Your eyes! Help categorise the images &mdash; all you need to do is to be able to spot the difference between a picture that has a bee in it, and one that doesn\'t. Simple, right?</p><button class="btn btn-lg btn-primary" ui-sref="tilevote">Get Started</button></div>');
-  }]);
-})();
-
-(function (module) {
-  try {
-    module = angular.module('varroa');
-  } catch (e) {
-    module = angular.module('varroa', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/varroa/tile/tile-vote.html', '<div class="text-center"><div ng-if="tiles.length === 0"><div class="placeholder"><i class="fa fa-2x fa-spinner fa-spin"></i><label>Fetching more...</label></div></div><div class="tile-list" infinite-scroll="fetchTile()" infinite-scroll-disabled="!expert"><div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert"><div class="grid-row"><div class="stretch text-right top"><button class="btn btn-default btn-lg" ng-click="downVote(tile._id)"><i class="fa fa-thumbs-down"></i></button><label>I don\'t see a bee</label></div><div class="top"><img ng-src="{{tile.url}}"></div><div class="stretch text-left top"><button class="btn btn-success btn-lg" ng-click="upVote(tile._id)"><i class="fa fa-thumbs-up"></i></button><label>I see a bee</label></div></div><div class="grid-row" ng-if="!expert"><div class="stretch"><button class="btn btn-link" ng-click="showNext()">Give me a different picture</button></div></div></div></div><div class="grid-row form-group" ng-if="!expert"><div class="text-success stretch text-right"><span class="badge">{{counts.bees}}</span> bees</div><div class="text-muted"><span class="badge">{{counts.uncategoriseds}}</span> uncategorised</div><div class="text-muted stretch text-left"><span class="badge">{{counts.unbees}}</span> not bees</div></div><div ng-if="!expert"><button class="btn btn-warning" ng-click="goExpert()"><i class="fa fa-rocket"></i> Expert Mode</button><label>I am ready for a torrent of images</label></div></div><div class="explanation" ng-if="!expert"><h3 class="text-center">What Do I Need To Do Here?</h3><p class="lead text-center">Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn\'t. Some of the images will be blurry and hard to make out just what they have in them. Don\'t worry &mdash; if you can\'t tell what it is, it\'s not a bee.</p></div>');
+    $templateCache.put('/varroa/tile/tile-vote.html', '<div class="text-center"><div ng-if="tiles.length === 0"><div class="placeholder"><i class="fa fa-2x fa-spinner fa-spin"></i><label>Fetching more...</label></div></div><div class="tile-list" infinite-scroll="fetchTile()" infinite-scroll-distance="3" infinite-scroll-disabled="!expert"><div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert"><div class="grid-row"><div class="stretch text-right top"><button class="btn btn-default btn-lg" ng-click="downVote(tile._id)"><i class="fa fa-thumbs-down"></i></button><label>I don\'t see a bee</label></div><div class="top"><img ng-src="{{tile.url}}"></div><div class="stretch text-left top"><button class="btn btn-success btn-lg" ng-click="upVote(tile._id)"><i class="fa fa-thumbs-up"></i></button><label>I see a bee</label></div></div><div class="grid-row" ng-if="!expert"><div class="stretch"><button class="btn btn-link" ng-click="showNext()">Give me a different picture</button></div></div></div></div><div class="grid-row form-group" ng-if="!expert"><div class="text-success stretch text-right"><span class="badge">{{counts.bees}}</span> bees</div><div class="text-muted"><span class="badge">{{counts.uncategoriseds}}</span> uncategorised</div><div class="text-muted stretch text-left"><span class="badge">{{counts.unbees}}</span> not bees</div></div><div ng-if="!expert"><button class="btn btn-warning" ng-click="goExpert()"><i class="fa fa-rocket"></i> Expert Mode</button><label>I am ready for a torrent of images</label></div></div><div class="explanation" ng-if="!expert"><h3 class="text-center">What Do I Need To Do Here?</h3><p class="lead text-center">Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn\'t. Some of the images will be blurry and hard to make out just what they have in them. Don\'t worry &mdash; if you can\'t tell what it is, it\'s not a bee.</p></div>');
   }]);
 })();
 
