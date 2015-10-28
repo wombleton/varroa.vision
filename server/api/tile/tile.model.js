@@ -17,7 +17,10 @@ var TileSchema = new Schema({
   },
   votedAt: Date,
   updatedAt: Date,
-  verdict: String,
+  verdict: {
+    index: true,
+    type: String
+  },
   votes: [
     {
       bee: Boolean,
@@ -31,6 +34,16 @@ var TileSchema = new Schema({
       }
     }
   ]
+});
+
+TileSchema.index({
+  voteCount: 1,
+  hash: 1
+});
+
+TileSchema.index({
+  voteCount: -1,
+  hash: 1
 });
 
 TileSchema.pre('save', function (next) {
