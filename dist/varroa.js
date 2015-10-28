@@ -145,7 +145,9 @@ angular.module('varroa.tile').directive('tileVote', function ($http) {
           if (scope.tiles.length < 10) {
             scope.fetchTiles();
           }
-          getCounts();
+          if (!scope.expert) {
+            getCounts();
+          }
         });
       }
 
