@@ -56,6 +56,8 @@ dl {
 	margin-bottom: 4px;
 }
 
+$img-size: 64px;
+
 tile-vote {
   display: block;
 
@@ -64,12 +66,12 @@ tile-vote {
   }
   .placeholder {
     margin: 0 auto;
-    width: 128px;
-    height: 128px;
+    width: $img-size;
+    height: $img-size;
   }
   img {
-    width: 128px;
-    height: 128px;
+    width: $img-size;
+    height: $img-size;
   }
   .text-success .badge {
     background-color: $brand-success;
