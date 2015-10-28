@@ -5952,6 +5952,9 @@ tile-vote {
     border-collapse: separate; }
     tile-vote table td {
       width: 33%; }
+  tile-vote .placeholder {
+    width: 128px;
+    height: 128px; }
   tile-vote .text-success .badge {
     background-color: #43ac6a; }
   tile-vote .text-muted .badge {
