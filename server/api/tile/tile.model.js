@@ -17,6 +17,7 @@ var TileSchema = new Schema({
   },
   votedAt: Date,
   updatedAt: Date,
+  verdict: String,
   votes: [
     {
       bee: Boolean,

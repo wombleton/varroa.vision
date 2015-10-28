@@ -55,3 +55,31 @@ dl {
 	border: none;
 	margin-bottom: 4px;
 }
+
+tile-vote {
+  display: block;
+
+  table {
+    margin: 0 auto;
+    table-layout: fixed;
+    border-spacing: 5px;
+    border-collapse: separate;
+    td {
+      width: 33%;
+    }
+  }
+  .text-success .badge {
+    background-color: $brand-success;
+  }
+  .text-muted .badge {
+    background-color: $text-muted;
+  }
+  .text-danger .badge {
+    background-color: $brand-danger;
+  }
+  label {
+    margin-top: 5px;
+    color: $text-muted;
+    display: block;
+  }
+}

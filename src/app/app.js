@@ -1,10 +1,12 @@
 /* global angular */
 'use strict';
 
-angular.module('varroa', [
+angular
+  .module('varroa', [
     'ui.router',
     'angularMoment',
     'varroa.upload',
+    'varroa.tile',
     'angulartics.google.analytics'
   ])
   .constant('_', window._)
