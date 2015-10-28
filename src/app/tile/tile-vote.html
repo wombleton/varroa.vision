@@ -12,7 +12,7 @@
           <img ng-src="{{tile.url}}" width="128" height="128">
         </td>
         <td class="text-left">
-          <button class="btn btn-primary btn-lg" ng-click="upVote(tile._id)">
+          <button class="btn btn-success btn-lg" ng-click="upVote(tile._id)">
             <i class="fa fa-thumbs-up"></i>
           </button>
           <label>I see a bee</label>
@@ -58,3 +58,14 @@
     </div>
   </div>
 </div>
+<h3 class="text-center">What Do I Need To Do Here?</h3>
+<p class="lead text-center">
+  Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn't. Some of the images will be blurry and hard to make out just what they have in them. Don't worry &mdash; if you can't tell what it is, it's not a bee.
+</p>
+<p class="lead text-center">
+  <b>Bonus points!</b> If you spot a varroa mite, click the <i class="fa fa-bug text-danger"></i> button! Varroa mites look like this, but as you can see they're pretty small:
+</p>
+<p class="text-center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Varroa_destructor_on_drone_66a.jpg/128px-Varroa_destructor_on_drone_66a.jpg">
+  <!-- from https://commons.wikimedia.org/wiki/File:Varroa_destructor_on_drone_66a.jpg -->
+</p>
