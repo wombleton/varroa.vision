@@ -43,7 +43,9 @@ angular
               if (scope.tiles.length < 10) {
                 scope.fetchTiles();
               }
-              getCounts();
+              if (!scope.expert) {
+                getCounts();
+              }
             });
         }
 
