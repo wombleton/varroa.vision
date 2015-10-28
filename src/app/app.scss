@@ -68,6 +68,10 @@ tile-vote {
       width: 33%;
     }
   }
+  .placeholder {
+    width: 128px;
+    height: 128px;
+  }
   .text-success .badge {
     background-color: $brand-success;
   }

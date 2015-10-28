@@ -1,18 +1,21 @@
-<div ng-if="tile" class="text-center">
+<div class="text-center">
   <table>
     <tbody>
       <tr>
         <td class="text-right">
-          <button class="btn btn-default btn-lg" ng-click="downVote(tile._id)">
+          <button class="btn btn-default btn-lg" ng-disabled="!tile" ng-click="downVote(tile._id)">
             <i class="fa fa-thumbs-down"></i>
           </button>
           <label>I don't see a bee</label>
         </td>
         <td>
-          <img ng-src="{{tile.url}}" width="128" height="128">
+          <img ng-if="tile" ng-src="{{tile.url}}" width="128" height="128">
+          <div class="placeholder text-center" ng-if="!tile">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+          </div>
         </td>
         <td class="text-left">
-          <button class="btn btn-success btn-lg" ng-click="upVote(tile._id)">
+          <button class="btn btn-success btn-lg" ng-disabled="!tile" ng-click="upVote(tile._id)">
             <i class="fa fa-thumbs-up"></i>
           </button>
           <label>I see a bee</label>
@@ -20,7 +23,7 @@
       </tr>
       <tr>
         <td colspan="3">
-          <button class="btn btn-danger" ng-click="parasite(tile._id)">
+          <button class="btn btn-danger" ng-disabled="!tile" ng-click="parasite(tile._id)">
             <i class="fa fa-bug"></i>
             Varroa!
           </button>
@@ -29,7 +32,7 @@
       </tr>
       <tr>
         <td colspan="3">
-          <button class="btn btn-link" ng-click="showNext()">
+          <button class="btn btn-link" ng-disabled="!tile" ng-click="showNext()">
             Give me a different picture
           </button>
         </td>
@@ -57,13 +60,6 @@
       </tr>
     </tbody>
   </table>
-</div>
-<div ng-if="!tile">
-  <div class="row form-group">
-    <div class="col-xs-12 text-center">
-      <i class="fa fa-3x fa-spinner fa-spin"></i>
-    </div>
-  </div>
 </div>
 <h3 class="text-center">What Do I Need To Do Here?</h3>
 <p class="lead text-center">
