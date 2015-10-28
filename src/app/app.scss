@@ -63,8 +63,13 @@ tile-vote {
     border-bottom: 1px solid $gray-light;
   }
   .placeholder {
-    width: 64px;
-    height: 64px;
+    margin: 0 auto;
+    width: 128px;
+    height: 128px;
+  }
+  img {
+    width: 128px;
+    height: 128px;
   }
   .text-success .badge {
     background-color: $brand-success;

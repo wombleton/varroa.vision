@@ -1,6 +1,6 @@
 <div class="text-center">
-<div ng-if="tiles.length === 0">
-  <div class="placeholder text-center">
+<div>
+  <div class="placeholder">
     <i class="fa fa-2x fa-spinner fa-spin"></i>
     <label>Fetching more...</label>
   </div>
@@ -15,7 +15,7 @@
         <label>I don't see a bee</label>
       </div>
       <div class="top">
-        <img ng-src="{{tile.url}}" width="64" height="64">
+        <img ng-src="{{tile.url}}">
       </div>
       <div class="stretch text-left top">
         <button class="btn btn-success btn-lg" ng-click="upVote(tile._id)">
