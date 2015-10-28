@@ -230,17 +230,6 @@ angular.module('varroa').directive('varroaHeader', function () {
     module = angular.module('varroa', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/varroa/home/home.html', '<div class="jumbotron text-center"><h1>Varroa Vision</h1><div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Varroa_Mite.jpg"></div><dl><dt>Varroa destructor</dt><dd>a microscopic mite which is a debilitating parasite of the honeybee, causing loss of honey production.</dd></dl><h3>What We Hope</h3><p>That we can develop computer vision to detect the presence of varroa mite.</p><h3>What We Need</h3><p>Your eyes! Help categorise the images &mdash; all you need to do is to be able to spot the difference between a picture that has a bee in it, and one that doesn\'t. Simple, right?</p><button class="btn btn-lg btn-primary" ui-sref="tilevote">Get Started</button></div>');
-  }]);
-})();
-
-(function (module) {
-  try {
-    module = angular.module('varroa');
-  } catch (e) {
-    module = angular.module('varroa', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/varroa/layout/header.html', '<div class="container"><div class="navbar-header"><button class="navbar-toggle collapsed" type="button" data-toggle="collapse"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a ui-sref="home" class="navbar-brand">Varroa Vision</a></div><nav class="collapse navbar-collapse"><ul class="nav navbar-nav"><li><a ui-sref="tilevote">Categorise</a></li></ul></nav></div>');
   }]);
 })();
@@ -253,6 +242,17 @@ angular.module('varroa').directive('varroaHeader', function () {
   }
   module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/varroa/layout/layout.html', '<header class="navbar navbar-fixed-top" role="banner" ui-view="header@"></header><section class="container"><ui-view></ui-view></section>');
+  }]);
+})();
+
+(function (module) {
+  try {
+    module = angular.module('varroa');
+  } catch (e) {
+    module = angular.module('varroa', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/varroa/home/home.html', '<div class="jumbotron text-center"><h1>Varroa Vision</h1><div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Varroa_Mite.jpg"></div><dl><dt>Varroa destructor</dt><dd>a microscopic mite which is a debilitating parasite of the honeybee, causing loss of honey production.</dd></dl><h3>What We Hope</h3><p>That we can develop computer vision to detect the presence of varroa mite.</p><h3>What We Need</h3><p>Your eyes! Help categorise the images &mdash; all you need to do is to be able to spot the difference between a picture that has a bee in it, and one that doesn\'t. Simple, right?</p><button class="btn btn-lg btn-primary" ui-sref="tilevote">Get Started</button></div>');
   }]);
 })();
 
