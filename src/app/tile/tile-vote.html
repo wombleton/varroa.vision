@@ -5,7 +5,7 @@
     <label>Fetching more...</label>
   </div>
 </div>
-<div class="tile-list" infinite-scroll="fetchTile()" infinite-scroll-disabled="!expert">
+<div class="tile-list" infinite-scroll="fetchTile()" infinite-scroll-distance="3" infinite-scroll-disabled="!expert">
   <div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert">
     <div class="grid-row">
       <div class="stretch text-right top">
