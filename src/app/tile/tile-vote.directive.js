@@ -14,8 +14,10 @@ angular
         scope.tiles = [];
 
         scope.fetchTiles = () => {
+          scope.fetching = true;
           $http.get('/api/tiles/random')
             .success((tiles) => {
+              scope.fetching = false;
               scope.tiles.push(...tiles);
               scope.tiles = _.uniq(scope.tiles, '_id');
               if (scope.tiles.length < 10) {
