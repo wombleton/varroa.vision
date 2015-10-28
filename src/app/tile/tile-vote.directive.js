@@ -13,18 +13,18 @@ angular
         scope.expert = false;
         scope.tiles = [];
 
-        scope.fetchTile = () => {
+        scope.fetchTiles = () => {
           $http.get('/api/tiles/random')
-            .success((tile) => {
-              scope.tiles.push(tile);
+            .success((tiles) => {
+              scope.tiles.push(...tiles);
               scope.tiles = _.uniq(scope.tiles, '_id');
               if (scope.tiles.length < 10) {
-                scope.fetchTile();
+                scope.fetchTiles();
               }
             });
         };
 
-        scope.fetchTile();
+        scope.fetchTiles();
         getCounts();
 
         function getCounts () {
@@ -40,7 +40,9 @@ angular
           $http
             .post(`/api/tiles/${id}/vote`, vote)
             .success(() => {
-              scope.fetchTile();
+              if (scope.tiles.length < 10) {
+                scope.fetchTiles();
+              }
               getCounts();
             });
         }

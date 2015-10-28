@@ -18,7 +18,7 @@ exports.index = function (req, res) {
 // 10% of the time it's high vote count outside the cooldown
 exports.random = function (req, res) {
   const roll = _.random(1, 10);
-  const skip = _.random(0, 1000);
+  const skip = _.random(0, 5000);
   let find;
   let sort;
   if (roll === 10) {
@@ -42,14 +42,15 @@ exports.random = function (req, res) {
     ];
   }
   Tile
-    .findOne(find)
+    .find(find)
     .sort(sort)
     .skip(skip)
-    .exec(function (err, tile) {
+    .limit(10)
+    .exec(function (err, tiles) {
       if (err) {
         return handleError(res, err);
       }
-      if (!tile) {
+      if (tiles.length === 0) {
         // we might not have any old tiles yet
         if (roll === 10) {
           return exports.random(req, res);
@@ -57,7 +58,7 @@ exports.random = function (req, res) {
           return res.sendStatus(404);
         }
       }
-      return res.json(tile);
+      return res.json(tiles);
     });
 };
 
