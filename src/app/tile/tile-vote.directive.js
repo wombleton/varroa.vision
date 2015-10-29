@@ -33,8 +33,13 @@ angular
         getCounts();
 
         function getCounts () {
+          if (scope.counting) {
+            return;
+          }
+          scope.counting = true;
           $http.get('/api/tiles/count')
             .success((counts) => {
+              scope.counting = false;
               scope.counts = counts;
             });
         }

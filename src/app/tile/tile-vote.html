@@ -34,7 +34,10 @@
     </div>
   </div>
 </div>
-<div class="grid-row form-group" ng-if="!expert">
+<div class="text-center" ng-if="!counts">
+  <i class="fa fa-spinner fa-spin"></i>
+</div>
+<div class="grid-row form-group" ng-if="!expert && counts">
   <div class="text-success stretch text-right">
     <span class="badge">{{counts.bees}}</span>
     bees
