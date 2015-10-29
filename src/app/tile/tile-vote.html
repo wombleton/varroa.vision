@@ -1,10 +1,4 @@
 <div class="text-center">
-<div ng-if="tiles.length === 0">
-  <div class="placeholder">
-    <i class="fa fa-2x fa-spinner fa-spin"></i>
-    <label>Fetching more...</label>
-  </div>
-</div>
 <div class="tile-list" infinite-scroll="fetchTiles()" infinite-scroll-disabled="fetching || !expert">
 
   <div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert">
@@ -32,6 +26,12 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
+<div ng-if="fetching">
+  <div class="placeholder">
+    <i class="fa fa-2x fa-spinner fa-spin"></i>
+    <label>Fetching more...</label>
   </div>
 </div>
 <div class="text-center" ng-if="!counts">
