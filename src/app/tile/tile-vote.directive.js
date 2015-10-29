@@ -59,6 +59,13 @@ angular
             });
         }
 
+        scope.showNext = () => {
+          scope.tiles.shift();
+          if (scope.tiles.length < 10) {
+            scope.fetchTiles();
+          }
+        };
+
         scope.goExpert = () => {
           scope.expert = true;
         };
