@@ -1,9 +1,10 @@
 <div class="text-center">
-<div ng-if="tiles.length === 0">
-  <div class="placeholder">
-    <i class="fa fa-2x fa-spinner fa-spin"></i>
-    <label>Fetching more...</label>
-  </div>
+<div class="text-center" ng-if="expert">
+  <button class="btn btn-warning active" ng-click="leaveExpert()">
+    <i class="fa fa-toggle-on"></i>
+    Expert Mode
+  </button>
+  <label>Slow the torrent!</label>
 </div>
 <div class="tile-list" infinite-scroll="fetchTiles()" infinite-scroll-disabled="fetching || !expert">
 
@@ -34,6 +35,12 @@
     </div>
   </div>
 </div>
+<div ng-if="fetching">
+  <div class="placeholder">
+    <i class="fa fa-2x fa-spinner fa-spin"></i>
+    <label>Fetching more...</label>
+  </div>
+</div>
 <div class="text-center" ng-if="!counts">
   <i class="fa fa-spinner fa-spin"></i>
 </div>
@@ -53,7 +60,7 @@
 </div>
 <div ng-if="!expert">
   <button class="btn btn-warning" ng-click="goExpert()">
-    <i class="fa fa-rocket"></i>
+    <i class="fa fa-toggle-off"></i>
     Expert Mode
   </button>
   <label>I am ready for a torrent of images</label>
