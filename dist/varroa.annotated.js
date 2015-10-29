@@ -161,6 +161,13 @@ angular.module('varroa.tile').directive('tileVote', ["$http", function ($http) {
         });
       }
 
+      scope.showNext = function () {
+        scope.tiles.shift();
+        if (scope.tiles.length < 10) {
+          scope.fetchTiles();
+        }
+      };
+
       scope.goExpert = function () {
         scope.expert = true;
       };
@@ -272,17 +279,6 @@ angular.module('varroa').directive('varroaHeader', function () {
     module = angular.module('varroa', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/varroa/tile/tile-vote.html', '<div class="text-center"><div class="text-center" ng-if="expert"><button class="btn btn-warning active" ng-click="leaveExpert()"><i class="fa fa-toggle-on"></i> Expert Mode</button><label>Slow the torrent!</label></div><div class="tile-list" infinite-scroll="fetchTiles()" infinite-scroll-disabled="fetching || !expert"><div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert"><div class="grid-row"><div class="stretch text-right top"><button class="btn btn-default btn-lg" ng-click="downVote(tile._id)"><i class="fa fa-thumbs-down"></i></button><label>I don\'t see a bee</label></div><div class="top"><img ng-src="{{tile.url}}"></div><div class="stretch text-left top"><button class="btn btn-success btn-lg" ng-click="upVote(tile._id)"><i class="fa fa-thumbs-up"></i></button><label>I see a bee</label></div></div><div class="grid-row" ng-if="!expert"><div class="stretch"><button class="btn btn-link" ng-click="showNext()">Give me a different picture</button></div></div></div></div><div ng-if="fetching"><div class="placeholder"><i class="fa fa-2x fa-spinner fa-spin"></i><label>Fetching more...</label></div></div><div class="text-center" ng-if="!counts"><i class="fa fa-spinner fa-spin"></i></div><div class="grid-row form-group" ng-if="!expert && counts"><div class="text-success stretch text-right"><span class="badge">{{counts.bees}}</span> bees</div><div class="text-muted"><span class="badge">{{counts.uncategoriseds}}</span> uncategorised</div><div class="text-muted stretch text-left"><span class="badge">{{counts.unbees}}</span> not bees</div></div><div ng-if="!expert"><button class="btn btn-warning" ng-click="goExpert()"><i class="fa fa-toggle-off"></i> Expert Mode</button><label>I am ready for a torrent of images</label></div></div><div class="explanation" ng-if="!expert"><h3 class="text-center">What Do I Need To Do Here?</h3><p class="lead text-center">Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn\'t. Some of the images will be blurry and hard to make out just what they have in them. Don\'t worry &mdash; if you can\'t tell what it is, it\'s not a bee.</p></div>');
-  }]);
-})();
-
-(function (module) {
-  try {
-    module = angular.module('varroa');
-  } catch (e) {
-    module = angular.module('varroa', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/varroa/upload/upload.html', '<section class="container-fluid"><div class="row"><div class="col-xs-12"><h3>Upload Files</h3><p>Upload pictures of bee frames here.</p><p>If they have mites that\'s great, but we need pictures of "normal" bees too! Ideally they\'ll be pictures from a phone.</p><form name="form"><div class="form-group"><input class="form-control input-lg" ng-model="uploadCtrl.name" placeholder="Your name — optional!"></div><div class="form-group"><div ng-file-select ng-file-drop ng-model="uploadCtrl.files" drag-over-class="{accept:\'ok\', reject:\'err\', delay:100}" class="droppable" ng-multiple="true" allow-dir="false" ng-accept="\'image/*\'" drop-available="dropAvailable" style="overflow: hidden"><div ng-hide="dropAvailable" class="ide">File Drop not available</div><div ng-show="dropAvailable && !uploadCtrl.files.length" class="">drop images here</div><div ng-repeat="file in uploadCtrl.files"><i class="fa fa-picture-o text-success"></i> {{file.name}}</div></div></div><div class="form-group"><button class="btn btn-lg btn-primary btn-block" ng-disabled="!uploadCtrl.files.length" ng-click="uploadCtrl.submit()" ng-hide="uploadCtrl.inProgress"><i class="fa fa-upload"></i> Upload</button></div><div class="form-group"><div class="progress" ng-show="uploadCtrl.uploads.length" ng-repeat="upload in uploadCtrl.uploads"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{upload.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{upload.progress}}%"><span class="sr-only">{{upload.progress}}% complete</span></div></div><div class="alert alert-success" ng-show="uploadCtrl.success"><i class="fa fa-check"></i> Upload complete! Thanks!</div><div class="alert alert-danger" ng-show="uploadCtrl.error"><i class="fa fa-close"></i> Upload failed. Please try again later. <code>{{uploadCtrl.error}}</code></div></div></form></div></div></section>');
   }]);
 })();
@@ -295,5 +291,16 @@ angular.module('varroa').directive('varroaHeader', function () {
   }
   module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/varroa/upload/uploads.html', '<section class="container-fluid"><div class="jumbotron" ng-if="uploadsCtrl.selected"><div class="col-md-8"><img class="uploads-img" src="{{uploadsCtrl.selected.url}}"></div><div class="col-md-4"><table class="table table-striped table-condensed"><tbody><tr><td>{{uploadsCtrl.index + 1}} of {{uploadsCtrl.uploads.length}} images</td></tr><tr><td>{{uploadsCtrl.selected.name}}</td></tr><tr><td>{{uploadsCtrl.selected.size}}</td></tr><tr><td><span am-time-ago="uploadsCtrl.selected.ts"></span></td></tr><tr><td><div class="btn-group"><button class="btn btn-default" ng-click="uploadsCtrl.prev()"><i class="fa fa-angle-double-left"></i></button> <button class="btn btn-default" ng-click="uploadsCtrl.next()"><i class="fa fa-angle-double-right"></i></button></div></td></tr></tbody></table></div></div><div class="row"><table class="table table-striped table-hover"><thead><tr><th>Image</th><th>Size</th><th>By</th><th>Uploaded</th></tr></thead><tbody><tr ng-repeat="upload in uploadsCtrl.uploads" ng-click="uploadsCtrl.select($index)" ng-class="{ info: $index == uploadsCtrl.index }"><td>{{upload.id}}</td><td>{{upload.size}}</td><td>{{upload.name}}</td><td><span am-time-ago="upload.ts"></span></td></tr></tbody></table></div></section>');
+  }]);
+})();
+
+(function (module) {
+  try {
+    module = angular.module('varroa');
+  } catch (e) {
+    module = angular.module('varroa', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/varroa/tile/tile-vote.html', '<div class="text-center"><div class="text-center" ng-if="expert"><button class="btn btn-warning active" ng-click="leaveExpert()"><i class="fa fa-toggle-on"></i> Expert Mode</button><label>Slow the torrent!</label></div><div class="tile-list" infinite-scroll="fetchTiles()" infinite-scroll-disabled="fetching || !expert"><div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert"><div class="grid-row"><div class="stretch text-right top"><button class="btn btn-default btn-lg" ng-click="downVote(tile._id)"><i class="fa fa-thumbs-down"></i></button><label>I don\'t see a bee</label></div><div class="top"><img ng-src="{{tile.url}}"></div><div class="stretch text-left top"><button class="btn btn-success btn-lg" ng-click="upVote(tile._id)"><i class="fa fa-thumbs-up"></i></button><label>I see a bee</label></div></div><div class="grid-row" ng-if="!expert"><div class="stretch"><button class="btn btn-link" ng-click="showNext()">Give me a different picture</button></div></div></div></div><div ng-if="fetching"><div class="placeholder"><i class="fa fa-2x fa-spinner fa-spin"></i><label>Fetching more...</label></div></div><div class="text-center" ng-if="!counts"><i class="fa fa-spinner fa-spin"></i></div><div class="grid-row form-group" ng-if="!expert && counts"><div class="text-success stretch text-right"><span class="badge">{{counts.bees}}</span> bees</div><div class="text-muted"><span class="badge">{{counts.uncategoriseds}}</span> uncategorised</div><div class="text-muted stretch text-left"><span class="badge">{{counts.unbees}}</span> not bees</div></div><div ng-if="!expert"><button class="btn btn-warning" ng-click="goExpert()"><i class="fa fa-toggle-off"></i> Expert Mode</button><label>I am ready for a torrent of images</label></div></div><div class="explanation" ng-if="!expert"><h3 class="text-center">What Do I Need To Do Here?</h3><p class="lead text-center">Click on the <i class="fa fa-thumbs-up text-success"></i> if the image has a bee in it; the <i class="fa fa-thumbs-down"></i> if it doesn\'t. Some of the images will be blurry and hard to make out just what they have in them. Don\'t worry &mdash; if you can\'t tell what it is, it\'s not a bee.</p></div>');
   }]);
 })();
