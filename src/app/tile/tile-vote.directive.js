@@ -63,6 +63,10 @@ angular
           scope.expert = true;
         };
 
+        scope.leaveExpert = () => {
+          scope.expert = false;
+        };
+
         scope.downVote = (id) => {
           doVote(id, {
             bee: false
