@@ -114,7 +114,7 @@ exports.count = function (req, res) {
       Tile.count({ verdict: 'varroa' }, callback);
     },
     function (callback) {
-      Tile.count({ verdict: undefined }, callback);
+      Tile.count({ verdict: { $nin: ['bee', 'notbee', 'varroa'] } }, callback);
     }
   ], function (err, result) {
     if (err) {
