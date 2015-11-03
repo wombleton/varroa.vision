@@ -8,7 +8,10 @@ var TileSchema = new Schema({
     default: Date.now,
     type: Date
   },
-  hash: String,
+  hash: {
+    index: true,
+    type: String
+  },
   url: String,
   name: String,
   voteCount: {
