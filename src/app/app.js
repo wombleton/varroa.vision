@@ -27,18 +27,6 @@ angular
         parent: 'varroa',
         templateUrl: '/varroa/home/home.html',
         url: '/'
-      })
-      .state('uploads', {
-        parent: 'varroa',
-        controller: 'UploadsCtrl as uploadsCtrl',
-        templateUrl: '/varroa/upload/uploads.html',
-        url: '/uploads'
-      })
-      .state('upload', {
-        parent: 'varroa',
-        controller: 'UploadCtrl as uploadCtrl',
-        templateUrl: '/varroa/upload/upload.html',
-        url: '/add'
       });
 
     $urlRouterProvider.otherwise('/');
