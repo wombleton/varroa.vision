@@ -21,6 +21,7 @@ var TileSchema = new Schema({
   votedAt: Date,
   updatedAt: Date,
   verdict: {
+    default: 'uncategorised',
     index: true,
     type: String
   },

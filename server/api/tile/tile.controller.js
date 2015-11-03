@@ -111,22 +111,18 @@ exports.count = function (req, res) {
       Tile.count({ verdict: 'notbee' }, callback);
     },
     function (callback) {
-      Tile.count({ verdict: 'varroa' }, callback);
-    },
-    function (callback) {
-      Tile.count({ verdict: { $nin: ['bee', 'notbee', 'varroa'] } }, callback);
+      Tile.count({ verdict: 'uncategorised' }, callback);
     }
   ], function (err, result) {
     if (err) {
       return handleError(res, err);
     }
 
-    const [ bees, unbees, varroas, uncategoriseds ] = result;
+    const [ bees, unbees, uncategoriseds ] = result;
     return res.status(200).json({
       bees,
       unbees,
-      uncategoriseds,
-      varroas
+      uncategoriseds
     });
   });
 };
