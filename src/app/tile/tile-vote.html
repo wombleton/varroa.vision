@@ -1,6 +1,6 @@
 <div class="text-center">
 <div class="text-center" ng-if="expert">
-  <button class="btn btn-warning active" ng-click="leaveExpert()">
+  <button class="btn btn-warning active" ng-click="leaveExpert()" analytics-on analytics-category="Tile" analytics-event="leaveexpert">
     <i class="fa fa-toggle-on"></i>
     Expert Mode
   </button>
@@ -11,7 +11,7 @@
   <div class="tile form-group" ng-repeat="tile in tiles track by tile._id" ng-show="$first || expert">
     <div class="grid-row">
       <div class="stretch text-right top">
-        <button class="btn btn-default btn-lg" ng-click="downVote(tile._id)">
+        <button class="btn btn-default btn-lg" ng-click="downVote(tile._id)" analytics-on analytics-category="Tile" analytics-event="downvote">
           <i class="fa fa-thumbs-down"></i>
         </button>
         <label>I don't see a bee</label>
@@ -20,7 +20,7 @@
         <img ng-src="{{tile.url}}">
       </div>
       <div class="stretch text-left top">
-        <button class="btn btn-success btn-lg" ng-click="upVote(tile._id)">
+        <button class="btn btn-success btn-lg" ng-click="upVote(tile._id)" analytics-on analytics-category="Tile" analytics-event="upvote">
           <i class="fa fa-thumbs-up"></i>
         </button>
         <label>I see a bee</label>
@@ -28,7 +28,7 @@
     </div>
     <div class="grid-row" ng-if="!expert">
       <div class="stretch">
-        <button class="btn btn-link" ng-click="showNext()">
+        <button class="btn btn-link" ng-click="showNext()" analytics-on analytics-category="Tile" analytics-event="newpic">
           Give me a different picture
         </button>
       </div>
@@ -59,7 +59,7 @@
   </div>
 </div>
 <div ng-if="!expert">
-  <button class="btn btn-warning" ng-click="goExpert()">
+  <button class="btn btn-warning" ng-click="goExpert()" analytics-on analytics-category="Tile" analytics-event="goexpert">
     <i class="fa fa-toggle-off"></i>
     Expert Mode
   </button>
