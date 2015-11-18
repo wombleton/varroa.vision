@@ -35,3 +35,5 @@ node_modules
 
 srcfiles/*.jpg
 dump
+*-data.txt
+*-labels.txt
