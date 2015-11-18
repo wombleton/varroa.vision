@@ -13,28 +13,28 @@ const trainData = fs.createWriteStream('train-data.txt');
 const testLabels = fs.createWriteStream('test-labels.txt');
 const testData = fs.createWriteStream('test-data.txt');
 
-var count = 0;
-
 const q = async.queue(function (tile, callback) {
   const test = _.random(1, 10) === 10;
 
   const label = test ? testLabels : trainLabels;
   const data = test ? testData : trainData;
-  label.write(tile.verdict + '\n');
+
   console.log('Getting pixels for %s. %s tiles left to process.', tile.url, q.length());
+
   pixels(tile.url, function (err, arr) {
     if (err) {
       console.log(err);
       return callback(err);
     }
-    data.write(arr.data.toString('base64') + '\n');
-    callback(count++);
-  });
-}, 10);
+    if (arr.data.length !== 16384) {
+      return callback();
+    }
 
-q.drain = function () {
-  console.log('Output %s tiles.', count);
-};
+    label.write(tile.verdict + '\n', function () {
+      data.write(arr.data, callback);
+    });
+  });
+}, 1);
 
 function fillQueue (hash) {
   Tile.find({
