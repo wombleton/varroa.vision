@@ -20,6 +20,7 @@ var TileSchema = new Schema({
   },
   votedAt: Date,
   updatedAt: Date,
+  hellmurky: String,
   verdict: {
     default: 'uncategorised',
     index: true,
