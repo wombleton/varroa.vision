@@ -37,3 +37,4 @@ srcfiles/*.jpg
 dump
 *-data.txt
 *-labels.txt
+*.pyc
