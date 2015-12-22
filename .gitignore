@@ -36,5 +36,6 @@ node_modules
 srcfiles/*.jpg
 dump
 *-data.txt
+*-hashes.txt
 *-labels.txt
 *.pyc

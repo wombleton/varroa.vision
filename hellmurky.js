@@ -8,17 +8,11 @@ const async = require('async');
 const Tile = require('./server/api/tile/tile.model');
 const pixels = require('get-pixels');
 
-const trainLabels = fs.createWriteStream('train-labels.txt');
-const trainData = fs.createWriteStream('train-data.txt');
-const testLabels = fs.createWriteStream('test-labels.txt');
-const testData = fs.createWriteStream('test-data.txt');
+const labels = fs.createWriteStream('hellmurky-labels.txt');
+const data = fs.createWriteStream('hellmurky-data.txt');
+const hashes = fs.createWriteStream('hellmurky-hashes.txt');
 
 const q = async.queue(function (tile, callback) {
-  const test = _.random(1, 10) === 10;
-
-  const label = test ? testLabels : trainLabels;
-  const data = test ? testData : trainData;
-
   console.log('Getting pixels for %s. %s tiles left to process.', tile.url, q.length());
 
   pixels(tile.url, function (err, arr) {
@@ -29,29 +23,42 @@ const q = async.queue(function (tile, callback) {
     if (arr.data.length !== 16384) {
       return callback();
     }
-    async.parallel([
-      function (callback) {
-        label.write(tile.verdict + '\n', callback);
-      },
-      function (callback) {
-        data.write(arr.data, callback);
-      }
-    ], callback);
+    q2.push({
+      data: arr.data,
+      hash: tile.hash,
+      verdict: tile.verdict
+    });
+    callback();
   });
+
+  if (q.length() === 0) {
+    fillQueue(tile.hash);
+  }
+}, 10);
+
+const q2 = async.queue(function (pixels, callback) {
+  async.parallel([
+    function (callback) {
+      hashes.write(pixels.hash + '\n', callback);
+    },
+    function (callback) {
+      labels.write(pixels.verdict + '\n', callback);
+    },
+    function (callback) {
+      data.write(pixels.data, callback);
+    }
+  ], callback);
 }, 1);
 
 function fillQueue (hash) {
   Tile.find({
-    verdict: {
-      $in: ['bee', 'notbee']
-    },
     hash: {
-      $gt: hash
+      $lt: hash
     }
   })
-  .limit(50)
+  .limit(500)
   .select('hash url verdict')
-  .sort('hash')
+  .sort('-hash')
   .exec(function (err, tiles) {
     if (err) {
       console.log(err);
@@ -60,13 +67,7 @@ function fillQueue (hash) {
     _.each(tiles, function (tile) {
       q.push(tile);
     });
-
-    if (tiles.length) {
-      setTimeout(function () {
-        fillQueue(_.last(tiles).hash);
-      }, 0);
-    }
   });
 }
 
-fillQueue('');
+fillQueue('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
