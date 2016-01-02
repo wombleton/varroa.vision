@@ -15,6 +15,7 @@ module.exports = {
         test: /-data\.txt$/
       },
       {
+        exclude: /node_modules/,
         loader: 'babel?presets=es2015',
         test: /\.js$/
       }

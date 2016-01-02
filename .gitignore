@@ -39,3 +39,4 @@ dump
 *-hashes.txt
 *-labels.txt
 *.pyc
+convnet/dist
